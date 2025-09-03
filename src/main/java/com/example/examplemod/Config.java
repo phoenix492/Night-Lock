@@ -1,15 +1,5 @@
 package com.example.examplemod;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
@@ -17,26 +7,23 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    public static final ModConfigSpec.BooleanValue LOCK_NIGHT = BUILDER
+            .comment(" Whether to prevent the world from progressing past night without sleeping.")
+            .define("lockNight", true);
 
-    public static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue LOCK_NIGHT_TIME = BUILDER
+            .comment(" Time of day in ticks that the night lock should activate.", " Minecraft days range from 0 to 23999 ticks. 18000 is midnight.", " Default: 18000")
+            .defineInRange("lockNightTime", 18000, 0, 23999);
 
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
+    public static final ModConfigSpec.BooleanValue LOCK_DAY = BUILDER
+            .comment(" Whether to prevent the world from progressing past day.", " Note: you'll need some other mod that allows you to sleep past the day in order to continue onto nighttime.")
+            .define("lockDay", false);
 
-    // a list of strings that are treated as resource locations for items
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), () -> "", Config::validateItemName);
+    public static final ModConfigSpec.IntValue LOCK_DAY_TIME = BUILDER
+        .comment(" Time of day in ticks that the day lock should activate.", " Minecraft days range from 0 to 23999 ticks. 6000 is midday/noon.", " Default: 6000")
+        .defineInRange("lockDayTime", 6000, 0, 23999);
+
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
 }
