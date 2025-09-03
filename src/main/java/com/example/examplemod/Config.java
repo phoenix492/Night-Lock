@@ -12,16 +12,16 @@ public class Config {
             .define("lockNight", true);
 
     public static final ModConfigSpec.IntValue LOCK_NIGHT_TIME = BUILDER
-            .comment(" Time of day in ticks that the night lock should activate.", " Minecraft days range from 0 to 23999 ticks. 18000 is midnight.", " Default: 18000")
-            .defineInRange("lockNightTime", 18000, 0, 23999);
+            .comment(" Time of day in ticks that the night lock should activate.", " The minecraft night ranges from 13000 (start of night) to 23000 (start of sunrise) ticks. 18000 is midnight.", " Default: 18000")
+            .defineInRange("lockNightTime", 18000, 13000, 23000);
 
     public static final ModConfigSpec.BooleanValue LOCK_DAY = BUILDER
             .comment(" Whether to prevent the world from progressing past day.", " Note: you'll need some other mod that allows you to sleep past the day in order to continue onto nighttime.")
             .define("lockDay", false);
 
     public static final ModConfigSpec.IntValue LOCK_DAY_TIME = BUILDER
-        .comment(" Time of day in ticks that the day lock should activate.", " Minecraft days range from 0 to 23999 ticks. 6000 is midday/noon.", " Default: 6000")
-        .defineInRange("lockDayTime", 6000, 0, 23999);
+        .comment(" Time of day in ticks that the day lock should activate.", " Minecraft days range from 0 (start of day) to 12000 (start of sunset) ticks. 6000 is midday/noon.", " Default: 6000")
+        .defineInRange("lockDayTime", 6000, 0, 12000);
 
 
     static final ModConfigSpec SPEC = BUILDER.build();
